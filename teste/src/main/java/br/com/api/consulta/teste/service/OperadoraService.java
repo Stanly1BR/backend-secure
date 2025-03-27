@@ -2,10 +2,8 @@ package br.com.api.consulta.teste.service;
 
 import br.com.api.consulta.teste.model.Operadora;
 import br.com.api.consulta.teste.repository.OperadoraRepository;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.time.LocalDate;
 import java.util.List;
 
