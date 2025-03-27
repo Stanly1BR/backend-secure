@@ -14,9 +14,11 @@ public class OperadoraService {
     public OperadoraService(OperadoraRepository operadoraRepository) {
         this.operadoraRepository = operadoraRepository;
     }
-    public List<Operadora> getTop10OperadorasComMaioresDespesas(){
+
+    public List<Operadora> getTop10OperadorasComMaioresDespesas() {
         return operadoraRepository.findTop10ByOrderByDespesaSaudeDesc();
     }
+
     public List<Operadora> getTop10OperadorasNoPeriodo(LocalDate startDate, LocalDate endDate) {
         return operadoraRepository.findTop10ByDespesaSaudeInPeriod(startDate, endDate);
     }
