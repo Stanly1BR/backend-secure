@@ -6,8 +6,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "operadoras")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Operadora {

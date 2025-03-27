@@ -11,7 +11,9 @@ import java.util.List;
 
 @Repository
 public interface OperadoraRepository extends JpaRepository<Operadora, Long> {
+
     List<Operadora> findTop10ByOrderByDespesaSaudeDesc();
+
     @Query("SELECT o FROM Operadora o WHERE o.data BETWEEN :startDate AND :endDate ORDER BY o.despesaSaude DESC")
     List<Operadora> findTop10ByDespesaSaudeInPeriod(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 }

@@ -2,8 +2,10 @@ package br.com.api.consulta.teste.service;
 
 import br.com.api.consulta.teste.model.Operadora;
 import br.com.api.consulta.teste.repository.OperadoraRepository;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,6 +22,10 @@ public class OperadoraService {
     }
 
     public List<Operadora> getTop10OperadorasNoPeriodo(LocalDate startDate, LocalDate endDate) {
+        if (startDate.isAfter(endDate)) {
+            throw new IllegalArgumentException("A data inicial não pode ser posterior à data final.");
+        }
         return operadoraRepository.findTop10ByDespesaSaudeInPeriod(startDate, endDate);
     }
+
 }
