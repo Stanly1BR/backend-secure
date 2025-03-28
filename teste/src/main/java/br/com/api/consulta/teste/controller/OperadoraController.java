@@ -2,6 +2,7 @@ package br.com.api.consulta.teste.controller;
 
 import br.com.api.consulta.teste.model.Operadora;
 import br.com.api.consulta.teste.service.OperadoraService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.DateTimeException;
@@ -18,18 +19,21 @@ public class OperadoraController {
     }
 
     @GetMapping("/top10")
-    public List<Operadora> getTop10Operadoras(){
-        return operadoraService.getTop10OperadorasComMaioresDespesas();
+    public ResponseEntity<List<Operadora>> getTop10Operadoras(){
+        return ResponseEntity.ok(operadoraService.getTop10OperadorasComMaioresDespesas());
     }
 
     @GetMapping("/top10-por-periodo")
-    public List<Operadora> getTop10OperadorasPorPeriodo(@RequestParam String startDate, @RequestParam String endDate) {
+    public ResponseEntity<?> getTop10OperadorasPorPeriodo(@RequestParam String startDate, @RequestParam String endDate) {
         try {
             LocalDate start = LocalDate.parse(startDate);
             LocalDate end = LocalDate.parse(endDate);
-            return operadoraService.getTop10OperadorasNoPeriodo(start, end);
+            if (start.isAfter(end)) {
+                return ResponseEntity.badRequest().body("A data inicial não pode ser posterior à data final.");
+            }
+            return  ResponseEntity.ok(operadoraService.getTop10OperadorasNoPeriodo(start,end));
         }catch (DateTimeException e){
-            throw new IllegalArgumentException("Formato de data inválido. Use o formato YYYY-MM-DD.");
+            return ResponseEntity.badRequest().body("Formato de data inválido. Use o formato YYYY-MM-DD.");
         }
     }
 }
