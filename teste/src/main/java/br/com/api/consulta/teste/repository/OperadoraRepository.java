@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface OperadoraRepository extends JpaRepository<Operadora, Long> {
@@ -21,4 +22,5 @@ public interface OperadoraRepository extends JpaRepository<Operadora, Long> {
     @Query("SELECT o FROM Operadora o WHERE o.data BETWEEN :startDate AND :endDate ORDER BY o.despesaSaude DESC")
     Page<Operadora> findTop10ByDespesaSaudeInPeriod(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate, Pageable pageable);
 
+    Optional<Operadora> findByCnpj(String cnpj);
 }

@@ -1,5 +1,6 @@
 package br.com.api.consulta.teste.service;
 
+import br.com.api.consulta.teste.service.NovosService.PdfTableExtractorService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -19,6 +20,11 @@ import java.util.zip.ZipOutputStream;
 public class WebScraperService {
     private static final String ANS_URL = "https://www.gov.br/ans/pt-br/acesso-a-informacao/participacao-da-sociedade/atualizacao-do-rol-de-procedimentos";
     private static final String DOWNLOAD_FOLDER = System.getProperty("user.dir") + "/downloads/";
+    private final PdfTableExtractorService pdfTableExtractorService;
+
+    public WebScraperService(PdfTableExtractorService pdfTableExtractorService) {
+        this.pdfTableExtractorService = pdfTableExtractorService;
+    }
 
     public void baixarPdfs() {
         try {
@@ -45,6 +51,19 @@ public class WebScraperService {
             System.out.println("Download e compactação concluídos!");
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void baixarPdfsEExtrairDados() throws IOException {
+        baixarPdfs(); // Método existente que baixa os PDFs
+
+        // Processar o Anexo I (assumindo que é o que contém a tabela)
+        File downloadDir = new File(DOWNLOAD_FOLDER);
+        File[] pdfFiles = downloadDir.listFiles((dir, name) ->
+                name.startsWith("Anexo_I") && name.endsWith(".pdf"));
+
+        if (pdfFiles != null && pdfFiles.length > 0) {
+            pdfTableExtractorService.extrairTabelaParaCsv(pdfFiles[0]);
         }
     }
 
