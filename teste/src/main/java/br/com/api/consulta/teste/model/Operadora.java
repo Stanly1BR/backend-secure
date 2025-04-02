@@ -2,76 +2,82 @@ package br.com.api.consulta.teste.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "operadoras")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Operadora {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nome", nullable = false)
-    private String nome;
-
-    @Column(name = "cnpj", unique = true, nullable = false)
+    @Column(length = 14, unique = true, nullable = false)
     private String cnpj;
 
-    @Column(name = "data_registro")
+    @Column(nullable = false, length = 255)
+    private String nome;
+
+    @Column(name = "nome_fantasia", length = 255)
+    private String nomeFantasia;
+
+    @Column(name = "data_registro", nullable = false)
     private LocalDate dataRegistro;
 
-    @Column(name = "modalidade")
+    @Column(nullable = false, length = 100)
     private String modalidade;
 
-    @Column(name = "logradouro")
+    @Column(length = 255)
     private String logradouro;
 
-    @Column(name = "uf")
+    @Column(length = 20)
+    private String numero;
+
+    @Column(length = 100)
+    private String complemento;
+
+    @Column(length = 100)
+    private String bairro;
+
+    @Column(length = 100)
+    private String cidade;
+
+    @Column(length = 2)
     private String uf;
 
-    @Column(name = "despesa_saude", nullable = false)
-    private Double despesaSaude;
+    @Column(length = 8)
+    private String cep;
 
-    @Column(name = "data", nullable = false)
-    private LocalDate data;
+    @Column(length = 20)
+    private String telefone;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @Column(length = 100)
+    private String email;
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    @OneToMany(mappedBy = "operadora", fetch = FetchType.EAGER)
+    private List<DemonstracaoContabil> demonstracoes = new ArrayList<>();
 
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
+    @Column(name = "data_atualizacao")
+    @UpdateTimestamp
+    private LocalDateTime dataAtualizacao;
 
-    public void setDataRegistro(LocalDate dataRegistro) {
-        this.dataRegistro = dataRegistro;
-    }
+    @Column(name = "despesa_saude", precision = 15, scale = 2)
+    private BigDecimal despesaSaude = BigDecimal.ZERO;
 
-    public void setModalidade(String modalidade) {
-        this.modalidade = modalidade;
-    }
-
-    public void setLogradouro(String logradouro) {
-        this.logradouro = logradouro;
-    }
-
-    public void setUf(String uf) {
-        this.uf = uf;
-    }
-
-    public void setDespesaSaude(Double despesaSaude) {
-        this.despesaSaude = despesaSaude;
-    }
-
-    public void setData(LocalDate data) {
-        this.data = data;
+    public void atualizarDespesa(BigDecimal valor) {
+        this.despesaSaude = valor != null ? valor : BigDecimal.ZERO;
+        this.dataAtualizacao = LocalDateTime.now();
     }
 }
 

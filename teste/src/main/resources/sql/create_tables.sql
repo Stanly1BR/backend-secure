@@ -35,6 +35,8 @@ CREATE TABLE IF NOT EXISTS demonstracoes_contabeis (
     CONSTRAINT uk_demonstracao UNIQUE (operadora_id, data)
     );
 
-CREATE INDEX IF NOT EXISTS idx_demonstracao_operadora ON demonstracao_contabil(operadora_id);
-CREATE INDEX IF NOT EXISTS idx_demonstracao_periodo ON demonstracao_contabil(periodo);
-CREATE INDEX IF NOT EXISTS idx_demonstracao_ano ON demonstracao_contabil(ano_referencia);
+-- Índices
+CREATE INDEX IF NOT EXISTS idx_demonstracao_operadora_data ON demonstracoes_contabeis(operadora_id, data);
+CREATE INDEX IF NOT EXISTS idx_demonstracao_ano_data ON demonstracoes_contabeis(ano_referencia, data);
+CREATE INDEX IF NOT EXISTS idx_operadora_uf ON operadoras(uf);
+CREATE INDEX IF NOT EXISTS idx_operadora_modalidade ON operadoras(modalidade);

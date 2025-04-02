@@ -1,8 +1,8 @@
-package br.com.api.consulta.teste.repository.novosRepository;
+package br.com.api.consulta.teste.repository;
 
 
 import br.com.api.consulta.teste.model.Operadora;
-import br.com.api.consulta.teste.model.novosModel.DemonstracaoContabil;
+import br.com.api.consulta.teste.model.DemonstracaoContabil;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
